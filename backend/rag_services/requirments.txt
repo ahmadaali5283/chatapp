@@ -1,0 +1,30 @@
+# Web Framework
+fastapi
+uvicorn[standard]
+
+# LangChain Core
+langchain
+langchain-core
+langchain-community
+
+# ChatGroq (LLM)
+langchain-groq
+
+# HuggingFace Embeddings
+langchain-huggingface
+huggingface-hub
+sentence-transformers
+
+# ChromaDB Vector Store
+langchain-chroma
+chromadb
+
+# MongoDB
+pymongo
+
+# Environment Variables
+python-dotenv
+
+# HTTP requests (optional, for testing)
+httpx
+requests

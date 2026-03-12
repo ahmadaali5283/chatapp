@@ -1,0 +1,22 @@
+# Node modules
+node_modules/
+
+# Environment files (keep secrets out of GitHub)
+.env
+
+# Logs
+*.log
+
+# Build folders
+dist/
+build/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS files
+.DS_Store
+Thumbs.db
