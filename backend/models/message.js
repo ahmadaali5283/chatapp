@@ -1,16 +1,29 @@
 import mongoose from "mongoose";
 
 const messageSchema = new mongoose.Schema({
+    sender: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+    },
+    receiver: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+    },
     recieverId: {
         type: mongoose.Schema.Types.ObjectId,
         //adding reference to the user model to get the details of the reciever
         ref : "User",
-        required: true, 
+        required: false,
     },
     senderId: {
         type: mongoose.Schema.Types.ObjectId,
         ref : "User",
-        required: true,
+        required: false,
+    },
+    image: {
+        type: String,
     },
     Image: {
         type: String,
