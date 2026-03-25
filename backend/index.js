@@ -14,16 +14,10 @@ import { connectdb } from './lib/db.js';
 
 const app = express();
 const frontendOrigin = process.env.FRONTEND_URL || 'http://localhost:3000';
-const allowedOrigins = [frontendOrigin, 'http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002'];
 
 // Allow browser requests from the React app with cookies.
 app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
-  } else {
-    res.header('Access-Control-Allow-Origin', frontendOrigin);
-  }
+  res.header('Access-Control-Allow-Origin', frontendOrigin);
   res.header('Vary', 'Origin');
   res.header('Access-Control-Allow-Credentials', 'true');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');

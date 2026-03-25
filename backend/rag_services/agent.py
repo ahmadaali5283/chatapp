@@ -9,14 +9,12 @@ from tools import (
     get_recent_messages,
     find_by_topic_and_user,
 )
-
 # ── LLM: ChatGroq ─────────────────────────────────────────────────────────
 llm = ChatGroq(
     api_key=config.GROQ_API_KEY,
     model_name="llama-3.3-70b-versatile",   # fast + accurate free Groq model
     temperature=0.2,                         # lower = more factual, less creative
 )
-
 # ── Tools List ────────────────────────────────────────────────────────────
 tools = [
     search_messages,
