@@ -34,35 +34,35 @@ export default function Register() {
   };
 
   return (
-    <main className="grid min-h-screen place-items-center bg-slate-950 px-4">
-      <section className="w-full max-w-md border border-slate-800 bg-slate-900 p-8">
-        <p className="mb-1 text-xs uppercase tracking-[0.2em] text-slate-400">Pulse Chat</p>
-        <h1 className="mb-6 text-2xl font-semibold text-white">Create account</h1>
+    <main className="grid min-h-screen place-items-center bg-slate-50 dark:bg-slate-950 px-4 transition-colors">
+      <section className="w-full max-w-md rounded-lg border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+        <p className="mb-1 text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">ConnectChat</p>
+        <h1 className="mb-6 text-2xl font-semibold text-slate-900 dark:text-white">Create account</h1>
 
         <form onSubmit={onSubmit} className="space-y-4">
-          <label className="block text-sm text-slate-300">
+          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
             Full name
             <input
               type="text"
               required
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              className="mt-1 w-full border border-slate-700 bg-slate-950 px-3 py-2 text-slate-100 outline-none focus:border-indigo-500"
+              className="mt-1 w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 text-slate-900 transition-colors outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:focus:border-indigo-500"
             />
           </label>
 
-          <label className="block text-sm text-slate-300">
+          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
             Email
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 w-full border border-slate-700 bg-slate-950 px-3 py-2 text-slate-100 outline-none focus:border-indigo-500"
+              className="mt-1 w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 text-slate-900 transition-colors outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:focus:border-indigo-500"
             />
           </label>
 
-          <label className="block text-sm text-slate-300">
+          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
             Password
             <input
               type="password"
@@ -70,22 +70,22 @@ export default function Register() {
               minLength={6}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 w-full border border-slate-700 bg-slate-950 px-3 py-2 text-slate-100 outline-none focus:border-indigo-500"
+              className="mt-1 w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 text-slate-900 transition-colors outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:focus:border-indigo-500"
             />
           </label>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-slate-700"
+            className="w-full rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-slate-300 dark:disabled:bg-slate-700 dark:disabled:text-slate-500"
           >
             {loading ? "Creating account..." : "Register"}
           </button>
         </form>
 
-        <p className="mt-6 text-sm text-slate-400">
+        <p className="mt-6 text-sm text-slate-500 dark:text-slate-400">
           Already have an account?{" "}
-          <Link to="/login" className="text-indigo-400 hover:text-indigo-300">
+          <Link to="/login" className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
             Sign in
           </Link>
         </p>

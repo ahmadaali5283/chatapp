@@ -1,4 +1,6 @@
-const RAG_BASE = process.env.RAG_SERVICE_URL || "http://localhost:8001";
+import axios from 'axios';
+
+const RAG_BASE = process.env.RAG_SERVICE_URL || "http://localhost:8000";
 
 /**
  * POST /api/ai/ask
@@ -15,30 +17,18 @@ export const askQuestion = async (req, res) => {
   }
 
   try {
-    const ragRes = await fetch(`${RAG_BASE}/ask`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        question,
-        user_id: req.user._id.toString(),
-        user_name: req.user.fullName,
-      }),
-    });
+    const ragRes = await axios.post(`${RAG_BASE}/ask`, {
+      question,
+      user_id: req.user._id.toString(),
+      user_name: req.user.fullName,
+    }, { timeout: 30000 }); // 30s timeout
 
-    const data = await ragRes.json();
-
-    if (!ragRes.ok) {
-      return res
-        .status(ragRes.status)
-        .json({ error: "RAG service error", details: data });
-    }
-
-    return res.status(200).json(data); // { answer, steps, memory_size }
+    return res.status(200).json(ragRes.data); // { answer, steps, memory_size }
   } catch (err) {
     console.error("askQuestion error:", err.message);
-    return res
-      .status(500)
-      .json({ error: "Could not reach RAG service", details: err.message });
+    const status = err.response?.status || 500;
+    const details = err.response?.data || err.message;
+    return res.status(status).json({ error: "Could not reach RAG service", details });
   }
 };
 
@@ -49,25 +39,13 @@ export const askQuestion = async (req, res) => {
  */
 export const ingestMessages = async (req, res) => {
   try {
-    const ragRes = await fetch(`${RAG_BASE}/ingest`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-    });
-
-    const data = await ragRes.json();
-
-    if (!ragRes.ok) {
-      return res
-        .status(ragRes.status)
-        .json({ error: "RAG service error", details: data });
-    }
-
-    return res.status(200).json(data);
+    const ragRes = await axios.post(`${RAG_BASE}/ingest`, {}, { timeout: 30000 });
+    return res.status(200).json(ragRes.data);
   } catch (err) {
     console.error("ingestMessages error:", err.message);
-    return res
-      .status(500)
-      .json({ error: "Could not reach RAG service", details: err.message });
+    const status = err.response?.status || 500;
+    const details = err.response?.data || err.message;
+    return res.status(status).json({ error: "Could not reach RAG service", details });
   }
 };
 
@@ -78,25 +56,15 @@ export const ingestMessages = async (req, res) => {
  */
 export const clearMemory = async (req, res) => {
   try {
-    const ragRes = await fetch(`${RAG_BASE}/clear-memory`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ user_id: req.user._id.toString() }),
-    });
+    const ragRes = await axios.post(`${RAG_BASE}/clear-memory`, {
+      user_id: req.user._id.toString()
+    }, { timeout: 15000 });
 
-    const data = await ragRes.json();
-
-    if (!ragRes.ok) {
-      return res
-        .status(ragRes.status)
-        .json({ error: "RAG service error", details: data });
-    }
-
-    return res.status(200).json(data);
+    return res.status(200).json(ragRes.data);
   } catch (err) {
     console.error("clearMemory error:", err.message);
-    return res
-      .status(500)
-      .json({ error: "Could not reach RAG service", details: err.message });
+    const status = err.response?.status || 500;
+    const details = err.response?.data || err.message;
+    return res.status(status).json({ error: "Could not reach RAG service", details });
   }
 };

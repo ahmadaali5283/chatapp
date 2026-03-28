@@ -141,7 +141,7 @@ export default function Chat() {
   };
 
   return (
-    <main className="h-screen overflow-hidden bg-slate-950 text-slate-100">
+    <main className="h-screen overflow-hidden bg-slate-50 text-slate-900 transition-colors dark:bg-slate-950 dark:text-slate-100">
       <div className="flex h-full">
         <div
           className={`fixed inset-y-0 left-0 z-30 w-[260px] transform transition lg:static lg:translate-x-0 ${
@@ -161,25 +161,25 @@ export default function Chat() {
         {mobileSidebarOpen && (
           <button
             type="button"
-            className="fixed inset-0 z-20 bg-slate-950/60 lg:hidden"
+            className="fixed inset-0 z-20 bg-slate-900/60 lg:hidden"
             onClick={() => setMobileSidebarOpen(false)}
             aria-label="Close sidebar"
           />
         )}
 
         <section className="flex min-w-0 flex-1 flex-col">
-          <div className="flex items-center justify-between border-b border-slate-800 bg-slate-900 px-3 py-2 lg:hidden">
+          <div className="flex items-center justify-between border-b border-slate-200 bg-white px-3 py-2 transition-colors lg:hidden dark:border-slate-800 dark:bg-slate-900">
             <button
               type="button"
               onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
-              className="border border-slate-700 p-2"
+              className="rounded border border-slate-300 p-2 text-slate-500 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800"
             >
               {mobileSidebarOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
             </button>
             <button
               type="button"
               onClick={handleLogout}
-              className="border border-slate-700 px-3 py-1 text-xs text-slate-300"
+              className="rounded border border-slate-300 px-3 py-1 text-xs font-medium text-slate-600 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
             >
               Logout
             </button>

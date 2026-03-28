@@ -43,7 +43,7 @@ export default function ProtectedRoute() {
   }, [clearAuth, currentUser, setAuth, token]);
 
   if (checking) {
-    return <div className="grid min-h-screen place-items-center bg-slate-950 text-slate-300">Loading...</div>;
+    return <div className="grid min-h-screen place-items-center bg-slate-50 text-slate-500 transition-colors dark:bg-slate-950 dark:text-slate-300">Loading...</div>;
   }
 
   return token || currentUser ? <Outlet /> : <Navigate to="/login" replace />;

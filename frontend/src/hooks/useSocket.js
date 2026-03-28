@@ -6,6 +6,7 @@ export function useSocket() {
   const token = useChatStore((s) => s.token);
   const appendMessage = useChatStore((s) => s.appendMessage);
   const setTyping = useChatStore((s) => s.setTyping);
+  const currentUser = useChatStore((s) => s.currentUser);
   const updateOnlineStatus = useChatStore((s) => s.updateOnlineStatus);
   const updateMessageStatus = useChatStore((s) => s.updateMessageStatus);
 
@@ -19,6 +20,10 @@ export function useSocket() {
     }
 
     window.__chat_socket = socket;
+
+    if (currentUser?.id || currentUser?._id) {
+      socket.emit("user:join", currentUser.id || currentUser._id);
+    }
 
     socket.on("message:receive", (payload) => {
       appendMessage(payload, payload.conversationId);
@@ -61,5 +66,5 @@ export function useSocket() {
       disconnectSocket();
       window.__chat_socket = null;
     };
-  }, [appendMessage, setTyping, token, updateMessageStatus, updateOnlineStatus]);
+  }, [appendMessage, currentUser, setTyping, token, updateMessageStatus, updateOnlineStatus]);
 }

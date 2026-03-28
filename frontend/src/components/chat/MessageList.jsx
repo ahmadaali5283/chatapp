@@ -21,8 +21,9 @@ export default function MessageList({
   let lastDate = "";
 
   return (
-    <div className="flex-1 overflow-y-auto bg-slate-950 px-4 py-4">
-      <div className="mx-auto flex max-w-3xl flex-col gap-3">
+    <div className="relative flex-1 overflow-y-auto bg-slate-100 px-4 py-4 transition-colors dark:bg-slate-950">
+      <div className="pointer-events-none absolute inset-0 bg-wa-pattern bg-repeat opacity-5"></div>
+      <div className="mx-auto flex max-w-3xl flex-col gap-3 relative z-10">
         {messages.map((message) => {
           const mine = String(message.senderId) === String(currentUserId);
           const dateLabel = formatDateSeparator(message.createdAt);
@@ -40,10 +41,10 @@ export default function MessageList({
               )}
               <div className={`group flex ${mine ? "justify-end" : "justify-start"}`}>
                 <div
-                  className={`max-w-[78%] border px-3 py-2 text-sm transition ${
+                  className={`max-w-[78%] px-3 py-2 text-sm shadow-sm transition-colors ${
                     mine
-                      ? "border-indigo-500/50 bg-indigo-600/20 text-indigo-100"
-                      : "border-slate-700 bg-slate-900 text-slate-200"
+                      ? "rounded-lg rounded-tr-none bg-indigo-50 text-slate-900 dark:bg-indigo-600 dark:text-slate-100"
+                      : "rounded-lg rounded-tl-none bg-white text-slate-900 dark:bg-slate-800 dark:text-slate-200"
                   }`}
                 >
                   {showSenderName && !mine && message.senderName && (
@@ -52,7 +53,7 @@ export default function MessageList({
                     </p>
                   )}
                   <p className="whitespace-pre-wrap break-words">{message.content}</p>
-                  <div className="mt-1 flex items-center justify-end gap-2 text-[11px] text-slate-500 opacity-0 transition group-hover:opacity-100">
+                  <div className="mt-1 flex items-center justify-end gap-2 text-[11px] text-slate-500 dark:text-slate-400">
                     <span>
                       {new Date(message.createdAt).toLocaleTimeString([], {
                         hour: "2-digit",

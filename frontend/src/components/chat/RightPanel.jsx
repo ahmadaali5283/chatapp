@@ -3,13 +3,13 @@ import AIInfoCard from "../ai/AIInfoCard";
 
 export default function RightPanel({ conversation, isAI, messageCount }) {
   return (
-    <aside className="hidden w-[280px] border-l border-slate-800 bg-slate-900/70 p-4 xl:block">
+    <aside className="hidden w-[280px] border-l border-slate-200 bg-slate-50 p-4 transition-colors xl:block dark:border-slate-800 dark:bg-slate-900/70">
       {isAI ? (
         <AIInfoCard messageCount={messageCount} />
       ) : (
         <div className="space-y-4">
           <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-slate-400">Profile</h3>
-          <div className="space-y-3 border border-slate-700 bg-slate-950 p-4">
+          <div className="space-y-3 border border-slate-200 bg-white p-4 transition-colors dark:border-slate-700 dark:bg-slate-950">
             <div className="flex items-center gap-3">
               <Avatar name={conversation?.name} src={conversation?.avatarUrl} size="lg" />
               <div>

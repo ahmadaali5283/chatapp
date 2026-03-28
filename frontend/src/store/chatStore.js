@@ -33,6 +33,7 @@ export const useChatStore = create((set, get) => ({
   onlineUsers: [],
   typingByConversation: {},
   mobileSidebarOpen: false,
+  isUpdatingProfile: false,
 
   setAuth: ({ token, user }) => {
     localStorage.setItem("chat_token", token);
@@ -55,6 +56,19 @@ export const useChatStore = create((set, get) => ({
   },
 
   setMobileSidebarOpen: (open) => set({ mobileSidebarOpen: open }),
+
+  updateProfile: async (data) => {
+    set({ isUpdatingProfile: true });
+    try {
+      const res = await api.put("/api/auth/update-profile", data);
+      const updatedUser = res.data;
+      const newAuth = { ...get().currentUser, profilePic: updatedUser.profilePic };
+      localStorage.setItem("chat_user", JSON.stringify(newAuth));
+      set({ currentUser: newAuth });
+    } finally {
+      set({ isUpdatingProfile: false });
+    }
+  },
 
   fetchConversations: async () => {
     set({ loadingConversations: true });

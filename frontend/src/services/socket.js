@@ -3,11 +3,6 @@ import { io } from "socket.io-client";
 let socket;
 
 export function connectSocket(token) {
-  const enabled = process.env.REACT_APP_ENABLE_SOCKET === "true";
-  if (!enabled) {
-    return null;
-  }
-
   if (socket?.connected) return socket;
 
   socket = io(process.env.REACT_APP_API_URL || "http://localhost:5000", {

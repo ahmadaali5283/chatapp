@@ -5,13 +5,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
 @layer base {
-  :root {
-    color-scheme: dark;
-  }
-
-  * {
-    @apply border-slate-700;
-  }
 
   html,
   body,
@@ -20,30 +13,48 @@
   }
 
   body {
-    @apply bg-slate-950 text-slate-100 antialiased;
+    @apply bg-slate-50 text-slate-900 antialiased transition-colors duration-200;
     font-family: "Inter", sans-serif;
   }
 
-  input,
-  textarea,
-  button {
-    @apply rounded-none;
+  /* Dark mode overrides */
+  .dark body {
+    @apply bg-slate-950 text-slate-100;
+    color-scheme: dark;
   }
 
+  .dark * {
+    @apply border-slate-700;
+  }
+
+  /* Scrollbar base (light) */
   ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
   }
 
   ::-webkit-scrollbar-track {
-    background: #0f172a;
+    @apply bg-slate-200;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #334155;
+    @apply bg-slate-400;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #475569;
+    @apply bg-slate-500;
+  }
+
+  /* Scrollbar Dark mode */
+  .dark ::-webkit-scrollbar-track {
+    background: #0b141a;
+  }
+
+  .dark ::-webkit-scrollbar-thumb {
+    background: #202c33;
+  }
+
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: #2a3942;
   }
 }
