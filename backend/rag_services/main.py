@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from pymongo import MongoClient
 import config
 from agent import run_agent, clear_memory
@@ -99,13 +99,11 @@ async def ingest_all():
                 .limit(batch_size)
             )
 
-            # Convert ObjectId to string for each message
+            # Convert ObjectId to string and map field names for embeddings service
             for msg in batch:
                 msg["_id"] = str(msg["_id"])
-                if "senderId" in msg:
-                    msg["senderId"] = str(msg["senderId"])
-                if "recieverId" in msg:
-                    msg["recieverId"] = str(msg["recieverId"])
+                msg["senderId"] = str(msg.get("sender", ""))
+                msg["recieverId"] = str(msg.get("receiver", ""))
 
             count = embed_and_store(batch)
             ingested += count
@@ -121,7 +119,7 @@ async def ingest_all():
         raise HTTPException(status_code=500, detail=f"Ingestion failed: {str(e)}")
 
 class IngestOneRequest(BaseModel):
-    _id: str
+    id: str = Field(alias="_id")
     senderId: str
     recieverId: str
     text: str
@@ -136,7 +134,7 @@ async def ingest_one(request: IngestOneRequest):
     """
     try:
         msg = {
-            "_id":       request._id,
+            "_id":       request.id,
             "senderId":  request.senderId,
             "recieverId":request.recieverId,
             "text":      request.text,

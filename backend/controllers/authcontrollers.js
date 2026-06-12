@@ -32,13 +32,14 @@ export const signup = async (req, res) => {
     });
 
     await newUser.save();
-    generateToken(newUser._id, res);
+    const token = generateToken(newUser._id, res);
 
     res.status(201).json({
       _id: newUser._id,
       fullName: newUser.fullName,
       email: newUser.email,
       profilePic: newUser.profilePic,
+      token,
     });
 
   } catch (error) {
@@ -79,7 +80,7 @@ export const login = async (req, res) => {
     }
 
     // ✅ Generate JWT cookie
-    generateToken(user._id, res);
+    const token = generateToken(user._id, res);
 
     // ❌ You used `newUser` instead of `user` — fixed
     res.status(200).json({
@@ -87,6 +88,7 @@ export const login = async (req, res) => {
       fullName: user.fullName,
       email: user.email,
       profilePic: user.profilePic,
+      token,
     });
 
   } catch (error) {

@@ -7,6 +7,9 @@ langchain
 langchain-core
 langchain-community
 
+# LangGraph (Agentic RAG)
+langgraph
+
 # ChatGroq (LLM)
 langchain-groq
 

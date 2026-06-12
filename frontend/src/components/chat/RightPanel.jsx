@@ -13,11 +13,11 @@ export default function RightPanel({ conversation, isAI, messageCount }) {
             <div className="flex items-center gap-3">
               <Avatar name={conversation?.name} src={conversation?.avatarUrl} size="lg" />
               <div>
-                <p className="text-sm font-semibold text-slate-100">{conversation?.name || "Unknown"}</p>
+                <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{conversation?.name || "Unknown"}</p>
                 <p className="text-xs text-slate-400">{conversation?.isOnline ? "Online" : "Offline"}</p>
               </div>
             </div>
-            <div className="border-t border-slate-800 pt-3 text-xs text-slate-400">
+            <div className="border-t border-slate-200 dark:border-slate-800 pt-3 text-xs text-slate-400">
               <p>Messages in this thread: {messageCount}</p>
             </div>
           </div>

@@ -109,7 +109,14 @@ def clear_memory(user_id: str):
     Clears conversation memory for a specific user.
     Called from main.py when user logs out.
     """
-    storage = checkpointer.storage
-    keys_to_delete = [k for k in storage if k[0] == user_id]
-    for k in keys_to_delete:
-        del storage[k]
+    try:
+        if hasattr(checkpointer, 'storage'):
+            keys = [k for k in list(checkpointer.storage.keys()) if k[0] == user_id]
+            for k in keys:
+                del checkpointer.storage[k]
+        if hasattr(checkpointer, 'writes'):
+            keys = [k for k in list(checkpointer.writes.keys()) if k[0] == user_id]
+            for k in keys:
+                del checkpointer.writes[k]
+    except Exception:
+        pass  # Memory clear is best-effort

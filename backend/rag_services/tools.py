@@ -67,12 +67,12 @@ def summarize_conversation(user_id: str, other_user_name: str) -> str:
                 {
                     "$or": [
                         {
-                            "senderId": ObjectId(user_id),
-                            "recieverId": other_id
+                            "sender": ObjectId(user_id),
+                            "receiver": other_id
                         },
                         {
-                            "senderId": other_id,
-                            "recieverId": ObjectId(user_id)
+                            "sender": other_id,
+                            "receiver": ObjectId(user_id)
                         },
                     ]
                 }
@@ -86,7 +86,7 @@ def summarize_conversation(user_id: str, other_user_name: str) -> str:
 
         transcript = []
         for msg in messages:
-            who = "You" if str(msg["senderId"]) == user_id else other_user_name
+            who = "You" if str(msg["sender"]) == user_id else other_user_name
             text = msg.get("text", "")
             transcript.append(f"{who}: {text}")
 
@@ -117,12 +117,12 @@ def get_recent_messages(user_id: str, other_user_name: str, limit: int = 10) -> 
                 {
                     "$or": [
                         {
-                            "senderId": ObjectId(user_id),
-                            "recieverId": other_id
+                            "sender": ObjectId(user_id),
+                            "receiver": other_id
                         },
                         {
-                            "senderId": other_id,
-                            "recieverId": ObjectId(user_id)
+                            "sender": other_id,
+                            "receiver": ObjectId(user_id)
                         },
                     ]
                 }
@@ -139,7 +139,7 @@ def get_recent_messages(user_id: str, other_user_name: str, limit: int = 10) -> 
 
         output = []
         for msg in messages:
-            who = "You" if str(msg["senderId"]) == user_id else other_user_name
+            who = "You" if str(msg["sender"]) == user_id else other_user_name
             date = str(msg.get("createdAt", ""))
             text = msg.get("text", "")
             output.append(f"{who}: {text} ({date})")

@@ -6,7 +6,7 @@ export function useSocket() {
   const token = useChatStore((s) => s.token);
   const appendMessage = useChatStore((s) => s.appendMessage);
   const setTyping = useChatStore((s) => s.setTyping);
-  const currentUser = useChatStore((s) => s.currentUser);
+  const currentUserId = useChatStore((s) => s.currentUser?.id || s.currentUser?._id);
   const updateOnlineStatus = useChatStore((s) => s.updateOnlineStatus);
   const updateMessageStatus = useChatStore((s) => s.updateMessageStatus);
 
@@ -21,8 +21,8 @@ export function useSocket() {
 
     window.__chat_socket = socket;
 
-    if (currentUser?.id || currentUser?._id) {
-      socket.emit("user:join", currentUser.id || currentUser._id);
+    if (currentUserId) {
+      socket.emit("user:join", currentUserId);
     }
 
     socket.on("message:receive", (payload) => {
@@ -43,6 +43,15 @@ export function useSocket() {
 
     socket.on("user:offline", ({ userId }) => {
       updateOnlineStatus({ userId, online: false });
+    });
+
+    // Sync full online users list when first connecting
+    socket.on("users:online", (userIds) => {
+      if (Array.isArray(userIds)) {
+        userIds.forEach((userId) => {
+          updateOnlineStatus({ userId, online: true });
+        });
+      }
     });
 
     socket.on("message:delivered", (payload) => {
@@ -66,5 +75,5 @@ export function useSocket() {
       disconnectSocket();
       window.__chat_socket = null;
     };
-  }, [appendMessage, currentUser, setTyping, token, updateMessageStatus, updateOnlineStatus]);
+  }, [token, currentUserId]);
 }

@@ -9,7 +9,7 @@ export const protectRoute = async (req, res, next) => {
       return res.status(401).json({ message: "Not authorized, no token" });
     }
     // ✅ Step 3: Verify the token
-    const decoded = jwt.verify(token, process.env.JWT_KEY);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || process.env.JWT_KEY);
     // ✅ Step 4: Find user by ID (decoded from token)
       const user = await User.findById(decoded.userId).select("-password");
       //password woont be sent or selected

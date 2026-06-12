@@ -58,6 +58,6 @@ def embed_and_store(messages: list):
 
     if documents:
         vectorstore.add_documents(documents=documents, ids=ids)
-        print(f"✅ Embedded and stored {len(documents)} messages.")
+        print(f"[SUCCESS] Embedded and stored {len(documents)} messages.")
 
     return len(documents)

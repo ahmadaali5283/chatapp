@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const RAG_BASE = process.env.RAG_SERVICE_URL || "http://localhost:8000";
+const RAG_BASE = process.env.RAG_SERVICE_URL || "http://localhost:8001";
 
 /**
  * POST /api/ai/ask

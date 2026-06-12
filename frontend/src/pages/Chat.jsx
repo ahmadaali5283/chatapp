@@ -57,7 +57,7 @@ export default function Chat() {
     });
   };
 
-  const handleSend = async (content) => {
+  const handleSend = async (content, imageData) => {
     if (!activeConversation) return;
 
     if (isAI) {
@@ -104,9 +104,12 @@ export default function Chat() {
     }
 
     const socket = window.__chat_socket;
+    const payload = {};
+    if (content) payload.text = content;
+    if (imageData) payload.image = imageData;
 
     try {
-      const res = await api.post(`/api/messages/send/${activeConversation.id}`, { text: content });
+      const res = await api.post(`/api/messages/send/${activeConversation.id}`, payload);
       const normalized = normalizeMessage(res.data, activeConversation.id);
       appendMessage(normalized, activeConversation.id);
       socket?.emit("message:send", {

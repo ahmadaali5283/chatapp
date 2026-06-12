@@ -20,7 +20,7 @@ export function normalizeConversation(raw) {
 
 export function normalizeMessage(raw, fallbackConversationId) {
   const senderId = raw.senderId || raw.sender?._id || raw.sender || raw.userId || "";
-  const receiverId = raw.receiverId || raw.receiver || raw.recieverId || "";
+  const receiverId = raw.receiverId || raw.receiver?._id || raw.receiver || raw.recieverId || "";
 
   return {
     id: raw._id || raw.id || `${Date.now()}_${Math.random()}`,
@@ -34,6 +34,7 @@ export function normalizeMessage(raw, fallbackConversationId) {
     senderId,
     senderName: raw.senderName || raw.sender?.fullName || "",
     content: raw.content || raw.text || "",
+    image: raw.image || raw.Image || "",
     createdAt: raw.createdAt || new Date().toISOString(),
     status: raw.status || "sent",
     isAI: Boolean(raw.isAI),

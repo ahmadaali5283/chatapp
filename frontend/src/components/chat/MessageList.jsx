@@ -52,7 +52,17 @@ export default function MessageList({
                       {message.senderName}
                     </p>
                   )}
-                  <p className="whitespace-pre-wrap break-words">{message.content}</p>
+                  {message.image && (
+                    <img
+                      src={message.image}
+                      alt="Shared"
+                      className="mb-2 max-h-64 w-full rounded-md object-cover cursor-pointer hover:opacity-90 transition-opacity"
+                      onClick={() => window.open(message.image, "_blank")}
+                    />
+                  )}
+                  {message.content && (
+                    <p className="whitespace-pre-wrap break-words">{message.content}</p>
+                  )}
                   <div className="mt-1 flex items-center justify-end gap-2 text-[11px] text-slate-500 dark:text-slate-400">
                     <span>
                       {new Date(message.createdAt).toLocaleTimeString([], {
