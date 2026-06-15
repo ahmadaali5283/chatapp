@@ -13,8 +13,9 @@ def _get(name: str, default: str | None = None) -> str | None:
 
 GROQ_API_KEY = _get("GROQ_API_KEY")
 MONGO_URI = _get("MONGO_URI")
-CHROMA_HOST = _get("CHROMA_HOST", "localhost")
-CHROMA_PORT = int(_get("CHROMA_PORT", "8000"))
+CHROMA_HOST = _get("CHROMA_HOST")
+CHROMA_PORT_STR = _get("CHROMA_PORT", "8000")
+CHROMA_PORT = int(CHROMA_PORT_STR) if CHROMA_PORT_STR else 8000
 PORT = int(_get("PORT", "8001"))
 
 # Comma-separated origins for FastAPI CORS, e.g.

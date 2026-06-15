@@ -10,12 +10,17 @@ embeddings = HuggingFaceEmbeddings(
 )
 def get_vectorstore():
     """
-    Connects to ChromaDB server and returns the vectorstore
+    Connects to ChromaDB server or initializes local persistent client
     """
-    client = chromadb.HttpClient(
-        host=config.CHROMA_HOST,
-        port=config.CHROMA_PORT,
-    )
+    if config.CHROMA_HOST:
+        client = chromadb.HttpClient(
+            host=config.CHROMA_HOST,
+            port=config.CHROMA_PORT,
+        )
+    else:
+        import os
+        persist_dir = os.path.join(os.path.dirname(__file__), "chroma_db_data")
+        client = chromadb.PersistentClient(path=persist_dir)
 
     vectorstore = Chroma(
         client=client,
