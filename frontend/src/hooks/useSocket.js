@@ -75,5 +75,5 @@ export function useSocket() {
       disconnectSocket();
       window.__chat_socket = null;
     };
-  }, [token, currentUserId]);
+  }, [token, currentUserId, appendMessage, setTyping, updateOnlineStatus, updateMessageStatus]);
 }
