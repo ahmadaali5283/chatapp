@@ -10,6 +10,7 @@ import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+// Load .env from repo root (local dev) or fall back to Railway env vars
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 import authroutes from './routes/auth.js';
@@ -20,10 +21,24 @@ import { connectdb } from './lib/db.js';
 const app = express();
 const server = http.createServer(app);
 
-const frontendOrigin = process.env.FRONTEND_URL || 'http://localhost:3000';
+// Support multiple allowed origins (comma-separated in FRONTEND_URL env var)
+const allowedOrigins = (process.env.FRONTEND_URL || 'http://localhost:3000')
+  .split(',')
+  .map((o) => o.trim())
+  .filter(Boolean);
 
 // ── CORS ─────────────────────────────────────────────────────────────────
-app.use(cors({ origin: frontendOrigin, credentials: true }));
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (e.g. curl, mobile apps, same-origin)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      callback(new Error(`CORS: origin ${origin} not allowed`));
+    },
+    credentials: true,
+  })
+);
 app.use(express.json({ limit: '10mb' }));
 app.use(cookieParser());
 
