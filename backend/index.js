@@ -54,7 +54,11 @@ app.get("/", (req, res) => {
 // ── Socket.IO ────────────────────────────────────────────────────────────
 const io = new Server(server, {
   cors: {
-    origin: frontendOrigin,
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      callback(new Error(`CORS: origin ${origin} not allowed`));
+    },
     credentials: true,
   },
 });
