@@ -1,5 +1,6 @@
-backend/
 chroma/
 *.md
 .git/
 .env*
+backend/venv/
+backend/data/
