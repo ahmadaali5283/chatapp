@@ -1,6 +1,7 @@
+backend/
 chroma/
 *.md
 .git/
 .env*
-backend/venv/
-backend/data/
+frontend/node_modules/
+frontend/build/
