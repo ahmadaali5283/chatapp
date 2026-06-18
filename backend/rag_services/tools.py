@@ -4,10 +4,19 @@ from bson import ObjectId
 import config
 from embedingsservice import get_vectorstore
 # ── MongoDB Connection ────────────────────────────────────────────────────
+import urllib.parse
+try:
+    db_name = urllib.parse.urlparse(config.MONGO_URI).path.lstrip("/")
+    if not db_name:
+        db_name = "gochat"
+except Exception:
+    db_name = "gochat"
+
 client = MongoClient(config.MONGO_URI)
-db = client["chatapp"]
+db = client[db_name]
 messages_collection = db["messages"]
 users_collection = db["users"]
+
 
 # ── Helper: Find User By Name ─────────────────────────────────────────────
 def find_user_by_name(name: str):

@@ -23,9 +23,18 @@ app.add_middleware(
 )
 
 # ── MongoDB Connection ────────────────────────────────────────────────────
+import urllib.parse
+try:
+    db_name = urllib.parse.urlparse(config.MONGO_URI).path.lstrip("/")
+    if not db_name:
+        db_name = "gochat"
+except Exception:
+    db_name = "gochat"
+
 mongo_client = MongoClient(config.MONGO_URI)
-db = mongo_client["chatapp"]
+db = mongo_client[db_name]
 messages_collection = db["messages"]
+
 
 # ── Request/Response Models ───────────────────────────────────────────────
 class AskRequest(BaseModel):
