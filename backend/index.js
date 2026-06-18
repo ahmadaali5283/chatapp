@@ -27,6 +27,9 @@ const allowedOrigins = (process.env.FRONTEND_URL || 'http://localhost:3000')
   .map((o) => o.trim())
   .filter(Boolean);
 
+// Match Vercel preview deployment URLs dynamically
+const vercelPreviewPattern = /^https:\/\/chatapp(-[a-z0-9]+)*-ahmad-alis-projects-6fee7d15\.vercel\.app$/;
+
 // ── CORS ─────────────────────────────────────────────────────────────────
 app.use(
   cors({
@@ -34,6 +37,8 @@ app.use(
       // Allow requests with no origin (e.g. curl, mobile apps, same-origin)
       if (!origin) return callback(null, true);
       if (allowedOrigins.includes(origin)) return callback(null, true);
+      // Allow any Vercel preview deployment for this project
+      if (vercelPreviewPattern.test(origin)) return callback(null, true);
       callback(new Error(`CORS: origin ${origin} not allowed`));
     },
     credentials: true,
@@ -57,6 +62,7 @@ const io = new Server(server, {
     origin: (origin, callback) => {
       if (!origin) return callback(null, true);
       if (allowedOrigins.includes(origin)) return callback(null, true);
+      if (vercelPreviewPattern.test(origin)) return callback(null, true);
       callback(new Error(`CORS: origin ${origin} not allowed`));
     },
     credentials: true,
